@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+</head>
+
+<body>
+
+    <button id="ajax">ajax call</button>
+    <button id="json">json</button>
+    <div id="result">...</div>
+    <script type="text/javascript">
+        var result = "";
+        $('#json').click(function() {
+            // console.log('json');
+            $.getJSON("https://jsonplaceholder.typicode.com/posts",
+                function(data) {
+                    for (i = 0; i < data.length; i++) {
+                        result += "<p>" + data[i].id + " - " + data[i].title + "</p>"
+                    }
+
+                    $('#result').html(result)
+                });
+        });
+
+        $('#ajax').click(function() {
+            //console.log('ajax');
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "https://jsonplaceholder.typicode.com/posts",
+                success: function(data) {
+                    // console.log(data);
+                    for (i = 0; i < data.length; i++) {
+                        result += "<p>" + data[i].id + " - " + data[i].title + "</p>"
+                    }
+
+                    $('#result').html(result)
+                }
+            });
+        });
+    </script>
+
+
+
+</body>
+
+</html>

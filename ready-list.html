@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+</head>
+
+<body>
+
+    <H1>Liste des résultats: </h2>
+        <div id="result">...</div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var result = "";
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "https://jsonplaceholder.typicode.com/posts",
+                    success: function(data) {
+                        // console.log(data);
+                        for (i = 0; i < data.length; i++) {
+                            result += "<p>" + data[i].id + " - " + data[i].title + "</p>"
+                        }
+                        $('#result').html(result)
+                    }
+                });
+            });
+        </script>
+
+
+
+</body>
+
+</html>
