@@ -2,28 +2,42 @@
 <html>
 
 <head>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
-
-    <H1>Liste des résultats: </h2>
+    <p>Recherche : <input type="text" id="search" placeholder="Search.."></p>
+    <H1>Liste des résultats: (<span id="total"></span>)</h2>
         <div id="result">...</div>
         <script type="text/javascript">
             $(document).ready(function() {
                 var result = "";
-
+                var totalRes = 0;
+                $("#search").val('');
+                $('#total').text(0);
                 $.ajax({
                     type: "GET",
                     dataType: "json",
                     url: "https://jsonplaceholder.typicode.com/posts",
                     success: function(data) {
                         // console.log(data);
+                        $('#total').text(data.length);
                         for (i = 0; i < data.length; i++) {
                             result += "<p>" + data[i].id + " - " + data[i].title + "</p>"
                         }
                         $('#result').html(result)
                     }
+                });
+
+                $("#search").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    console.log('val: ' + value);
+                    $('#result p').filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                    totalRes = $('#result').children("p:visible").length;
+                    console.log("totalRes: ", totalRes);
+                    $('#total').text(totalRes);
                 });
             });
         </script>
